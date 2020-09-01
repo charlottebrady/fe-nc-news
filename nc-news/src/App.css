@@ -1,18 +1,55 @@
 .App {
   text-align: center;
-}
-
-.App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  /* height: 100vh; */
   font-size: calc(10px + 2vmin);
+}
+
+.navButton {
+  background-color: rgb(41, 40, 40);
+  border-radius: 5px;
+  color: rgb(189, 186, 188);
+  border: solid;
+  padding: 5px;
+  margin: 5px;
+  text-decoration: solid;
+}
+
+.homeButton {
+  background-color: rgba(255, 20, 145, 0.568);
+  border-radius: 5px;
+  color: rgb(230, 142, 200);
+  border: solid;
+  padding: 5px;
+  margin: 5px;
+  text-decoration: solid;
+}
+
+.commentsList {
+  list-style-type: square;
+  margin: 2px;
+  padding: 2px;
+}
+
+.comment {
+  background-color: rgba(230, 23, 178, 0.281);
+  text-align: start;
+  border-radius: 3px;
+  font-size: smaller;
+}
+
+a:link {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+a:visited {
+  color: white;
+}
+
+a:hover {
+  color: rgb(139, 106, 131);
 }
