@@ -6,21 +6,35 @@ import HomePage from "./components/HomePage";
 import Articles from "./components/Articles";
 import SingleArticle from "./components/SingleArticle";
 import "./layout.css";
-import NewComment from "./components/NewComment";
+import ErrorPage from "./components/ErrorPage";
 
-function App() {
-  return (
-    <div className="App AppLayout">
-      <Title />
-      <Router className="Main">
-        <HomePage path="/" />
-        <Articles path="/topics/:topic/articles" />
-        <SingleArticle path="/articles/:article_id" />
-        <Articles path="topics/:topic/articles/:sort_by" />
-        <NewComment path="/articles/:article_id/new_comment" />
-      </Router>
-    </div>
-  );
+class App extends React.Component {
+  state = { username: "jessjelly" };
+
+  render() {
+    return (
+      <div className="App AppLayout">
+        <Title />
+        <Router className="Main">
+          <HomePage path="/" />
+          <Articles path="/topics/:topic/articles" />
+          <SingleArticle
+            path="/articles/:article_id"
+            username={this.state.username}
+          />
+          <Articles path="topics/:topic/articles/:sort_by" />
+          <ErrorPage
+            default
+            msg={
+              "Hmmm something doesn't look quite right... that path couldn't be found!"
+            }
+            status={404}
+            img="https://i.gifer.com/6zIA.gif"
+          />
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -33,36 +33,28 @@ class Articles extends Component {
 
   render() {
     const { articles, isLoading } = this.state;
+    const { topic, sort_by } = this.props;
     if (isLoading) return <Loader />;
     return (
       <main>
-        <h2>
-          {this.props.topic[0].toUpperCase() + this.props.topic.slice(1)}{" "}
-          articles:
-        </h2>
+        <h2>{topic[0].toUpperCase() + topic.slice(1)} articles:</h2>
         <section>
           Sort by...{" "}
-          <Link
-            to={`/topics/${this.props.topic}/articles/created_at`}
-            className="filter"
-          >
+          <Link to={`/topics/${topic}/articles/created_at`} className="filter">
             Date
           </Link>{" "}
           <Link
-            to={`/topics/${this.props.topic}/articles/comment_count`}
+            to={`/topics/${topic}/articles/comment_count`}
             className="filter"
           >
             Comments
           </Link>{" "}
-          <Link
-            to={`/topics/${this.props.topic}/articles/votes`}
-            className="filter"
-          >
+          <Link to={`/topics/${topic}/articles/votes`} className="filter">
             Votes
           </Link>
         </section>
         <StyledUl>
-          <ArticlesList articles={articles} sort_by={this.props.sort_by} />
+          <ArticlesList articles={articles} sort_by={sort_by} />
         </StyledUl>
       </main>
     );

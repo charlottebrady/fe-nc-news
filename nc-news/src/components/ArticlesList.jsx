@@ -4,10 +4,11 @@ import { Link } from "@reach/router";
 
 const ArticlesList = ({ articles }) => {
   return articles.map((article) => {
+    const { article_id, title } = article;
     return (
-      <Link to={`/articles/${article.article_id}`} key={article.article_id}>
+      <Link to={`/articles/${article_id}`} key={article_id}>
         <StyledLi>
-          <h3>{article.title}</h3>
+          <h3>{title}</h3>
         </StyledLi>
       </Link>
     );

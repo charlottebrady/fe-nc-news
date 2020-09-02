@@ -9,15 +9,27 @@ class ToggleViewer extends Component {
   };
   render() {
     const { isVisible } = this.state;
-    const { type } = this.props;
-    return (
-      <div>
-        <button onClick={this.toggleView}>
-          {isVisible ? `hide ${type}` : `show ${type}`}
-        </button>
-        {isVisible && this.props.children}
-      </div>
-    );
+    const { type, functionality } = this.props;
+
+    if (functionality === "show_hide") {
+      return (
+        <div>
+          <button onClick={this.toggleView}>
+            {isVisible ? `hide ${type}` : `show ${type}`}
+          </button>
+          {isVisible && this.props.children}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <button onClick={this.toggleView}>
+            {isVisible ? `cancel ${type}` : `${type}`}
+          </button>
+          {isVisible && this.props.children}
+        </div>
+      );
+    }
   }
 }
 

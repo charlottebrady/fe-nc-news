@@ -3,7 +3,9 @@ import React from "react";
 const Loader = () => {
   return (
     <div>
-      <p>Loading ...</p>
+      <p>
+        {"🙈"}Just a moment...{"🙈"}
+      </p>
     </div>
   );
 };

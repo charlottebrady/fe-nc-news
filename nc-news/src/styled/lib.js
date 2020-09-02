@@ -2,14 +2,15 @@ import styled from "styled-components";
 //import React from "react";
 
 export const StyledUl = styled.ul`
+  display: table;
   list-style-type: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 `;
 
 export const StyledLi = styled.li`
   border: 1px solid #cdcdcd;
-  max-width: 300px;
+  max-width: 330px;
   max-height: 300px;
   border-color: white;
   margin-bottom: 15px;

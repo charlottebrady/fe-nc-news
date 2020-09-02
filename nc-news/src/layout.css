@@ -1,10 +1,10 @@
 .AppLayout {
   display: grid;
   grid-template: auto;
-  grid-template-rows: 170px auto;
+  grid-template-rows: 220px auto;
   grid-template-areas:
-    "header header header"
-    ". main .";
+    "header"
+    "main";
 }
 header {
   grid-area: header;

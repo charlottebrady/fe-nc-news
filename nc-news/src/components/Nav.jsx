@@ -21,7 +21,7 @@ class Nav extends Component {
     return (
       <StyledNav>
         <Link to="/" className="homeButton">
-          Home
+          Home {"🏠"}
         </Link>
         <br />
         <br />

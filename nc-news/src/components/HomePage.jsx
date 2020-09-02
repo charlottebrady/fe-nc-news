@@ -34,11 +34,11 @@ class HomePage extends Component {
     } else {
       return (
         <main>
-          <h2>Top 5 trending:</h2>
+          <h2>{"🔥"}Top 5 trending:</h2>
           <StyledUl>
             <ArticlesList articles={trendingArticles} />
           </StyledUl>
-          <h2>Most recent:</h2>
+          <h2>{"✨"}Most recent:</h2>
           <StyledUl>
             <ArticlesList articles={mostRecentArticles} />
           </StyledUl>
