@@ -2,11 +2,9 @@
   text-align: center;
   background-color: #282c34;
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
+  min-height: 100vh;
   font-size: calc(10px + 2vmin);
+  padding: 35px;
 }
 
 .navButton {
@@ -54,6 +52,10 @@ a:hover {
   color: rgb(204, 135, 187);
 }
 
+a:active {
+  color: rgb(204, 135, 187);
+}
+
 input[type="text"] {
   width: 50%;
   margin: 8px 0;
@@ -61,10 +63,14 @@ input[type="text"] {
 }
 
 .voterButton {
-  font-size: large;
+  font-size: x-large;
 }
 
 img {
-  width: 60%;
-  height: 60%;
+  width: 80%;
+  height: 80%;
+}
+
+button {
+  font-size: large;
 }

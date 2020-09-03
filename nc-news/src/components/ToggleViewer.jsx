@@ -2,11 +2,13 @@ import React, { Component } from "react";
 
 class ToggleViewer extends Component {
   state = { isVisible: false };
+
   toggleView = () => {
     this.setState((currentState) => {
       return { isVisible: !currentState.isVisible };
     });
   };
+
   render() {
     const { isVisible } = this.state;
     const { type, functionality } = this.props;

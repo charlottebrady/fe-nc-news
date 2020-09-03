@@ -1,17 +1,23 @@
 import React from "react";
 import * as api from "../utils/api";
+import ErrorPage from "./ErrorPage";
 
 class NewComment extends React.Component {
-  state = { body: "" };
+  state = { body: "", err: null };
 
   handleSubmit = (submitEvent) => {
     submitEvent.preventDefault();
     const { article_id, username, newComment } = this.props;
     const { body } = this.state;
-    api.postNewComment(article_id, username, body).then((postedComment) => {
-      newComment(postedComment);
-      this.setState({ body: "" });
-    });
+    api
+      .postNewComment(article_id, username, body)
+      .then((postedComment) => {
+        newComment(postedComment);
+        this.setState({ body: "" });
+      })
+      .catch((err) => {
+        this.setState({ err });
+      });
   };
 
   handleChange = (changeEvent) => {
@@ -21,6 +27,16 @@ class NewComment extends React.Component {
 
   render() {
     const { username } = this.props;
+    const { err, body } = this.state;
+    if (err) {
+      return (
+        <ErrorPage
+          msg="Seems like our server is a bit sleepy... wakey wakey!! Please try again soon"
+          status="500"
+          img="https://media1.giphy.com/media/xT5LMAeAK2hy1jjRzW/source.gif"
+        />
+      );
+    }
     if (!username) {
       return (
         <section>
@@ -37,7 +53,7 @@ class NewComment extends React.Component {
             name="new_comment"
             required={true}
             onChange={this.handleChange}
-            value={this.state.body}
+            value={body}
           />
           <br />
           <button type="submit">post</button>

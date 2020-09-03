@@ -1,15 +1,5 @@
 .AppLayout {
   display: grid;
-  grid-template: auto;
-  grid-template-rows: 220px auto;
-  grid-template-areas:
-    "header"
-    "main";
-}
-header {
-  grid-area: header;
-}
-
-.Main {
-  grid-area: main;
+  grid-template-columns: 1r 2fr 1fr;
+  grid-template-rows: 200px auto;
 }

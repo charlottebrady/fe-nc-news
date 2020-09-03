@@ -1,24 +1,40 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
+import ErrorPage from "./ErrorPage";
 
 class Voter extends Component {
-  state = { optimisticVotes: 0 };
+  state = { optimisticVotes: 0, err: null };
 
   updateItem = (vote) => {
     const { id, type } = this.props;
-    api.voteOnItem(type, id, vote).then((updatedItem) => {
-      this.setState((currentState) => {
-        return { optimisticVotes: currentState.optimisticVotes + vote };
+    api
+      .voteOnItem(type, id, vote)
+      .then((updatedItem) => {
+        this.setState((currentState) => {
+          return { optimisticVotes: currentState.optimisticVotes + vote };
+        });
+      })
+      .catch((err) => {
+        this.setState({ err });
       });
-    });
   };
 
   render() {
     const { votes, type } = this.props;
-    const { optimisticVotes } = this.state;
+    const { optimisticVotes, err } = this.state;
     let like = "😇";
     let dislike = "👿";
-    if (type === "comments") {
+    if (err) {
+      if ("code" in err) {
+        return (
+          <ErrorPage
+            msg="Seems like our server is a bit sleepy... wakey wakey!! Please try again soon"
+            status="500"
+            img="https://media1.giphy.com/media/xT5LMAeAK2hy1jjRzW/source.gif"
+          />
+        );
+      }
+    } else if (type === "comments") {
       like = "👍";
       dislike = "👎";
     }

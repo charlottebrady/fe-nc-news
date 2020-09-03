@@ -2,22 +2,33 @@ import React, { Component } from "react";
 import * as api from "../utils/api";
 import { Link } from "@reach/router";
 import { StyledNav } from "../styled/lib";
+import ErrorPage from "./ErrorPage";
 
 class Nav extends Component {
-  state = { topics: [] };
+  state = { topics: [], err: null };
 
   componentDidMount() {
-    this.getTopics().then((topics) => {
-      this.setState({ topics });
-    });
+    api
+      .getAllTopics()
+      .then((topics) => {
+        this.setState({ topics });
+      })
+      .catch((err) => {
+        this.setState(err);
+      });
   }
 
-  getTopics = () => {
-    return api.getAllTopics();
-  };
-
   render() {
-    const { topics } = this.state;
+    const { topics, err } = this.state;
+    if (err) {
+      return (
+        <ErrorPage
+          msg="Seems like our server is a bit sleepy... wakey wakey!! Please try again soon"
+          status="500"
+          img="https://media1.giphy.com/media/xT5LMAeAK2hy1jjRzW/source.gif"
+        />
+      );
+    }
     return (
       <StyledNav>
         <Link to="/" className="homeButton">

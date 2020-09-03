@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "https://charlottes-nc-news.herokuapp.com/api",
+  timeout: 1000,
 });
 
 export const getAllTopics = () => {
