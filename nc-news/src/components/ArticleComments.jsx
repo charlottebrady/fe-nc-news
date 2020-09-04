@@ -4,51 +4,46 @@ import ToggleViewer from "./ToggleViewer";
 import NewComment from "./NewComment";
 import Voter from "./Voter";
 import ErrorPage from "./ErrorPage";
+import { StyledLi, StyledUl } from "../styled/lib";
+import DeleteComment from "./DeleteComment";
+import Loader from "./Loader";
 
 class ArticleComments extends React.Component {
-  state = { comments: [], posted: 0, err: null };
+  state = { comments: [], err: null, isLoading: true };
 
   componentDidMount() {
     const { article_id } = this.props;
     api
       .getArticleComments(article_id)
       .then((comments) => {
-        this.setState({ comments });
+        this.setState({ comments, isLoading: false, err: null });
       })
       .catch((err) => {
         this.setState({ err });
       });
   }
 
-  deleteComment = (clickEvent) => {
-    const comment_id = clickEvent.target.id;
-    api
-      .deleteComment(comment_id)
-      .then(() => {
-        this.setState((currentState) => {
-          const commentsUpdated = currentState.comments.filter((comment) => {
-            const commentCopy = { ...comment };
-            return commentCopy.comment_id !== parseInt(comment_id);
-          });
-          return { comments: commentsUpdated, posted: 0 };
-        });
-      })
-      .catch((err) => {
-        this.setState({ err });
+  deletedComment = (comment_id) => {
+    return this.setState((currentState) => {
+      const commentsUpdated = currentState.comments.filter((comment) => {
+        const commentCopy = { ...comment };
+        return commentCopy.comment_id !== parseInt(comment_id);
       });
+      return { comments: commentsUpdated, err: null };
+    });
   };
 
   newComment = (newComment) => {
     this.setState((currentState) => {
       return {
         comments: [newComment, ...currentState.comments],
-        posted: 1,
+        err: null,
       };
     });
   };
 
   render() {
-    const { comments, posted, err } = this.state;
+    const { comments, err, isLoading } = this.state;
     const { username } = this.props;
     if (err) {
       if ("code" in err) {
@@ -60,6 +55,8 @@ class ArticleComments extends React.Component {
           />
         );
       }
+    } else if (isLoading) {
+      return <Loader />;
     }
     return (
       <section>
@@ -70,20 +67,19 @@ class ArticleComments extends React.Component {
             article_id={this.props.article_id}
             newComment={this.newComment}
           />
-          {posted === 1 && <p>your comment has been posted!</p>}
         </ToggleViewer>
-        <ul className="commentsList">
-          <br />
+        <StyledUl className="commentsList">
           {comments.map((comment) => {
             const { comment_id, author, body, votes } = comment;
             return (
-              <li key={comment_id} className="comment">
+              <StyledLi key={comment_id} className="comment">
                 <h4>{author}:</h4>
                 <p>{body}</p>
                 {author === username && (
-                  <button onClick={this.deleteComment} id={comment_id}>
-                    delete
-                  </button>
+                  <DeleteComment
+                    comment_id={comment_id}
+                    deletedComment={this.deletedComment}
+                  />
                 )}
                 {author !== username ? (
                   <Voter
@@ -93,12 +89,16 @@ class ArticleComments extends React.Component {
                     type="comments"
                   />
                 ) : (
-                  <p>Votes: {votes} </p>
+                  <p>
+                    <span role="img" aria-label="votes">
+                      🧡{votes}
+                    </span>
+                  </p>
                 )}
-              </li>
+              </StyledLi>
             );
           })}
-        </ul>
+        </StyledUl>
       </section>
     );
   }

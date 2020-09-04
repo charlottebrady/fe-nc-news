@@ -11,7 +11,7 @@ class Nav extends Component {
     api
       .getAllTopics()
       .then((topics) => {
-        this.setState({ topics });
+        this.setState({ topics, err: null });
       })
       .catch((err) => {
         this.setState(err);
@@ -30,24 +30,24 @@ class Nav extends Component {
       );
     }
     return (
-      <StyledNav>
+      <nav>
         <Link to="/" className="homeButton">
           Home {"🏠"}
         </Link>
-        <br />
-        <br />
-        {topics.map((topic) => {
-          return (
-            <Link
-              to={`/topics/${topic.slug}/articles`}
-              key={topic.slug}
-              className="navButton"
-            >
-              {topic.slug[0].toUpperCase() + topic.slug.slice(1)}
-            </Link>
-          );
-        })}
-      </StyledNav>
+        <StyledNav>
+          {topics.map((topic) => {
+            return (
+              <Link
+                to={`/topics/${topic.slug}/articles`}
+                key={topic.slug}
+                className="navButton"
+              >
+                {topic.slug[0].toUpperCase() + topic.slug.slice(1)}
+              </Link>
+            );
+          })}
+        </StyledNav>
+      </nav>
     );
   }
 }

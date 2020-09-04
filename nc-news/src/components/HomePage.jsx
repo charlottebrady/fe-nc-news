@@ -4,6 +4,7 @@ import ArticlesList from "./ArticlesList";
 import { StyledUl } from "../styled/lib";
 import Loader from "./Loader";
 import ErrorPage from "./ErrorPage";
+import { Link } from "@reach/router";
 
 class HomePage extends Component {
   state = {
@@ -17,10 +18,10 @@ class HomePage extends Component {
     this.getTrendingArticles()
       .then((articles) => {
         const trendingArticles = articles.slice(0, 5);
-        this.setState({ trendingArticles }, () => {
+        this.setState({ trendingArticles, err: null }, () => {
           this.getMostRecentArticles().then((articles) => {
             const mostRecentArticles = articles.slice(0, 5);
-            this.setState({ mostRecentArticles, isLoading: false });
+            this.setState({ mostRecentArticles, isLoading: false, err: null });
           });
         });
       })
@@ -54,6 +55,16 @@ class HomePage extends Component {
     } else {
       return (
         <main>
+          <span role="img" aria-label="avi">
+            👩‍💻
+            {this.props.username ? (
+              <p>Hey {this.props.username}</p>
+            ) : (
+              <p>Hey! Please login for more cool stuff</p>
+            )}
+            👨‍💻
+          </span>
+          <Link to={`/articles/author/`}>articles by author</Link>
           <h2>{"🔥"}Top 5 trending:</h2>
           <StyledUl>
             <ArticlesList articles={trendingArticles} />

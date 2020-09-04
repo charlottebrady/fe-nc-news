@@ -13,7 +13,7 @@ class SingleArticle extends Component {
     api
       .getSingleArticle(this.props.article_id)
       .then((article) => {
-        this.setState({ article, isLoading: false });
+        this.setState({ article, isLoading: false, err: null });
       })
       .catch((err) => {
         this.setState({ err });
@@ -22,7 +22,7 @@ class SingleArticle extends Component {
 
   render() {
     const { article, isLoading, err } = this.state;
-    const { title, body, author, article_id, votes } = article;
+    const { title, body, author, article_id, votes, comment_count } = article;
     const { username } = this.props;
     if (err) {
       if ("code" in err) {
@@ -50,20 +50,30 @@ class SingleArticle extends Component {
     } else if (isLoading) return <Loader />;
     return (
       <main>
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         <h4>- {author} </h4>
         <p>{body}</p>
 
-        {author !== username && (
+        {author !== username ? (
           <Voter
             votes={votes}
             id={article_id}
             username={username}
             type="articles"
           />
+        ) : (
+          <section>
+            <span role="img" aria-label="votes">
+              🧡 {votes}
+            </span>
+          </section>
         )}
 
-        <p>Comment count: {article.comment_count}</p>
+        <p>
+          <span role="img" aria-label="comments">
+            💬 {comment_count}
+          </span>
+        </p>
         <ToggleViewer type="comments" functionality="show_hide">
           <ArticleComments article_id={article_id} username={username} />
         </ToggleViewer>

@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
-import ArticlesList from "./ArticlesList";
-import { StyledUl } from "../styled/lib";
 import Loader from "./Loader";
-import { Link } from "@reach/router";
 import ErrorPage from "./ErrorPage";
+import SortArticles from "./SortArticles";
 
 class Articles extends Component {
   state = { articles: [], isLoading: true, err: null };
@@ -12,7 +10,7 @@ class Articles extends Component {
   componentDidMount() {
     this.getArticles()
       .then((articles) => {
-        this.setState({ articles, isLoading: false });
+        this.setState({ articles, isLoading: false, err: null });
       })
       .catch((err) => {
         this.setState({ err });
@@ -26,7 +24,7 @@ class Articles extends Component {
     ) {
       this.getArticles()
         .then((articles) => {
-          this.setState({ articles });
+          this.setState({ articles, err: null });
         })
         .catch((err) => {
           this.setState({ err });
@@ -72,24 +70,7 @@ class Articles extends Component {
         <header>
           <h2>{topic[0].toUpperCase() + topic.slice(1)} articles:</h2>
         </header>
-        <section>
-          Sort by...{" "}
-          <Link to={`/topics/${topic}/articles/created_at`} className="filter">
-            Date
-          </Link>{" "}
-          <Link
-            to={`/topics/${topic}/articles/comment_count`}
-            className="filter"
-          >
-            Comments
-          </Link>{" "}
-          <Link to={`/topics/${topic}/articles/votes`} className="filter">
-            Votes
-          </Link>
-          <StyledUl>
-            <ArticlesList articles={articles} sort_by={sort_by} />
-          </StyledUl>
-        </section>
+        <SortArticles topic={topic} articles={articles} sort_by={sort_by} />
       </main>
     );
   }

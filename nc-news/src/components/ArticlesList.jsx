@@ -4,13 +4,21 @@ import { Link } from "@reach/router";
 
 const ArticlesList = ({ articles }) => {
   return articles.map((article) => {
-    const { article_id, title } = article;
+    const { article_id, title, votes, comment_count } = article;
     return (
-      <Link to={`/articles/${article_id}`} key={article_id}>
-        <StyledLi>
+      <StyledLi key={article_id}>
+        <Link to={`/articles/${article_id}`}>
           <h3>{title}</h3>
-        </StyledLi>
-      </Link>
+        </Link>
+        <p>
+          <span role="img" aria-label="votes">
+            🧡 {votes}
+          </span>{" "}
+          <span role="img" aria-label="comments">
+            💬 {comment_count}
+          </span>{" "}
+        </p>
+      </StyledLi>
     );
   });
 };

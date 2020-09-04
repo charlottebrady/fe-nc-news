@@ -7,6 +7,7 @@ import Articles from "./components/Articles";
 import SingleArticle from "./components/SingleArticle";
 import "./layout.css";
 import ErrorPage from "./components/ErrorPage";
+import UserArticles from "./components/UserArticles";
 
 class App extends React.Component {
   state = { username: "jessjelly" };
@@ -16,13 +17,14 @@ class App extends React.Component {
       <div className="App AppLayout">
         <Title />
         <Router className="Main">
-          <HomePage path="/" />
+          <HomePage path="/" username={this.state.username} />
           <Articles path="/topics/:topic/articles" />
           <SingleArticle
             path="/articles/:article_id"
             username={this.state.username}
           />
           <Articles path="topics/:topic/articles/:sort_by" />
+          <UserArticles path="articles/author" />
           <ErrorPage
             default
             msg={
