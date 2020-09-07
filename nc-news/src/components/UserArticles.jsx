@@ -8,9 +8,10 @@ class UserArticles extends Component {
   state = {
     userInput: "",
     isLoading: false,
-    validInput: null,
+
     articles: [],
-    display: false,
+
+    err: null,
   };
 
   handleChange = (changeEvent) => {
@@ -23,32 +24,49 @@ class UserArticles extends Component {
 
   handleSubmit = (submitEvent) => {
     submitEvent.preventDefault();
-    api.getArticles().then((articles) => {
-      const filteredArticles = articles.filter((article) => {
-        const articleCopy = { ...article };
-        return articleCopy.author === this.state.userInput;
+    const { userInput } = this.state;
+    api
+      .getArticles(null, null, userInput)
+      .then((articles) => {
+        if (articles.length === 0) {
+          this.setState({
+            isLoading: false,
+            userInput: "",
+          });
+        } else {
+          this.setState({
+            articles,
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({ err });
       });
-      if (filteredArticles.length === 0) {
-        this.setState({
-          validInput: false,
-          isLoading: false,
-          userInput: "",
-          display: true,
-        });
-      } else {
-        this.setState({
-          articles: filteredArticles,
-          isLoading: false,
-          validInput: true,
-          userInput: "",
-          display: true,
-        });
-      }
-    });
   };
 
   render() {
-    const { isLoading, articles, validInput, display } = this.state;
+    const { isLoading, articles, err } = this.state;
+    if (err) {
+      if ("code" in err) {
+        return (
+          <ErrorPage
+            msg="Seems like our server is a bit sleepy... wakey wakey!! Please try again soon"
+            status="500"
+            img="https://media1.giphy.com/media/xT5LMAeAK2hy1jjRzW/source.gif"
+          />
+        );
+      } else {
+        const { response } = err;
+        return (
+          <ErrorPage
+            msg={response.data.msg}
+            status={response.status}
+            img="https://i.gifer.com/Knxc.gif"
+          />
+        );
+      }
+    }
     return (
       <section>
         <form onSubmit={this.handleSubmit}>
@@ -65,27 +83,15 @@ class UserArticles extends Component {
           </button>
         </form>
         {isLoading && <p>loading...</p>}
-        {display ? (
-          validInput ? (
-            articles.map((article) => {
-              return (
-                <StyledLi key={article.article_id}>
-                  <Link to={`/articles/${article.article_id}`}>
-                    {article.title}
-                  </Link>
-                </StyledLi>
-              );
-            })
-          ) : (
-            <ErrorPage
-              msg="Oops that user has no articles! You might want to check your spelling and try again"
-              status="404/400"
-              img="https://i.gifer.com/Knxc.gif"
-            />
-          )
-        ) : (
-          <p></p>
-        )}
+        {articles.map((article) => {
+          return (
+            <StyledLi key={article.article_id}>
+              <Link to={`/articles/${article.article_id}`}>
+                {article.title}
+              </Link>
+            </StyledLi>
+          );
+        })}
       </section>
     );
   }

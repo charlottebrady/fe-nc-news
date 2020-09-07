@@ -11,9 +11,9 @@ export const getAllTopics = () => {
   });
 };
 
-export const getArticles = (sort_by, topic) => {
+export const getArticles = (sort_by, topic, author) => {
   return axiosInstance
-    .get("/articles", { params: { sort_by, topic } })
+    .get("/articles", { params: { sort_by, topic, author } })
     .then((res) => {
       return res.data.articles;
     });
@@ -25,10 +25,12 @@ export const getSingleArticle = (article_id) => {
   });
 };
 
-export const getArticleComments = (article_id) => {
-  return axiosInstance.get(`/articles/${article_id}/comments`).then((res) => {
-    return res.data.comments;
-  });
+export const getArticleComments = (article_id, sort_by) => {
+  return axiosInstance
+    .get(`/articles/${article_id}/comments`, { params: { sort_by } })
+    .then((res) => {
+      return res.data.comments;
+    });
 };
 
 export const postNewComment = (article_id, username, body) => {

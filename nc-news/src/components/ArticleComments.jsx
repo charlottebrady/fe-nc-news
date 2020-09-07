@@ -7,6 +7,7 @@ import ErrorPage from "./ErrorPage";
 import { StyledLi, StyledUl } from "../styled/lib";
 import DeleteComment from "./DeleteComment";
 import Loader from "./Loader";
+import SortComments from "./SortComments";
 
 class ArticleComments extends React.Component {
   state = { comments: [], err: null, isLoading: true };
@@ -42,6 +43,10 @@ class ArticleComments extends React.Component {
     });
   };
 
+  sortComments = (sorted_comments) => {
+    this.setState({ comments: sorted_comments });
+  };
+
   render() {
     const { comments, err, isLoading } = this.state;
     const { username } = this.props;
@@ -68,6 +73,10 @@ class ArticleComments extends React.Component {
             newComment={this.newComment}
           />
         </ToggleViewer>
+        <SortComments
+          sortComments={this.sortComments}
+          article_id={this.props.article_id}
+        />
         <StyledUl className="commentsList">
           {comments.map((comment) => {
             const { comment_id, author, body, votes } = comment;

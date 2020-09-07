@@ -34,7 +34,7 @@ class Articles extends Component {
 
   getArticles = () => {
     const { sort_by, topic } = this.props;
-    return api.getArticles(sort_by, topic);
+    return api.getArticles(sort_by, topic, null);
   };
 
   render() {
